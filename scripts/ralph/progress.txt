@@ -1,0 +1,18 @@
+# Ralph Progress Log
+## Codebase Patterns
+- Pipeline em pipeline.py (raiz), só stdlib (csv, decimal, pathlib); caminhos via RAIZ = Path(__file__).resolve().parent
+- Saídas geradas (vendas_lojas.csv, etc.) ficam na raiz e são commitadas
+- tests/test_pipeline.py: fixture autouse de módulo roda pipeline.main() antes; helper ler(nome) lê CSVs da raiz
+- Somar receita com Decimal; formatar com :.2f só na saída
+---
+Started: Fri Oct  2 20:24:37 -03 2026
+---
+
+## 2026-10-02 - US-001
+- pipeline.py: lê vendas.csv/lojas.csv, INNER JOIN por id_loja, grava vendas_lojas.csv (420 linhas, receita 931274.06), imprime entrada/saída/receita descartada (3 órfãs, R$ 8120.00)
+- Files changed: pipeline.py, tests/test_pipeline.py, vendas_lojas.csv
+- **Learnings for future iterations:**
+  - Colunas de vendas_lojas.csv: id_venda,data,id_loja,categoria,unidades,receita_brl,nome_loja,regiao,uf
+  - Mês para o pivot = data[:7] (datas no formato AAAA-MM-DD)
+  - Órfãs têm receita sem casas decimais (ex.: 1200) — sempre usar Decimal
+---
