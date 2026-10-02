@@ -82,3 +82,10 @@ def test_index_conclusao_300_caracteres():
     assert "Sudeste" in texto and "R$ 265.077,49" in texto
     assert "3 vendas órfãs" in texto and "R$ 8.120,00" in texto
     assert "108" in texto
+
+
+def test_readme_documenta_join_e_exclusoes():
+    texto = (RAIZ / "README.md").read_text(encoding="utf-8")
+    for trecho in ["python3 pipeline.py", "python3 -m pytest -q", "INNER JOIN",
+                   "423", "420", "8.120,00", "108", "931274.06", "939394.06"]:
+        assert trecho in texto

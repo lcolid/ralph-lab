@@ -59,7 +59,7 @@
         "A suíte completa tem pelo menos 4 testes e python3 -m pytest -q passa sem falhas"
       ],
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "notes": ""
     }
   ]

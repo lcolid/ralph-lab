@@ -38,3 +38,12 @@ Started: Fri Oct  2 20:24:37 -03 2026
   - Cuidado: em Python, "a" f"b".replace(...) aplica o replace à string concatenada inteira (concatenação implícita acontece antes)
   - Loja sem venda = lojas cujo id_loja não aparece no join; calculado em main(), não fixo no código
 ---
+
+## 2026-10-02 - US-004
+- README.md na raiz: como rodar (python3 pipeline.py / python3 -m pytest -q), justificativa do inner join (vs left/outer), tabela de entrada/descartes/saída (423 → 420, 3 órfãs R$ 8.120,00, 939394.06 → 931274.06), loja 108 sem vendas, nota sobre Decimal
+- tests: test_readme_documenta_join_e_exclusoes verifica os números-chave no README (9 testes no total)
+- Files changed: README.md, tests/test_pipeline.py, scripts/ralph/prd.json, scripts/ralph/progress.txt
+- **Learnings for future iterations:**
+  - Receita bruta de vendas.csv = 939394.06 (423 linhas); conferido com Decimal
+  - Se os números do pipeline mudarem, o teste do README falha — atualizar README junto
+---
