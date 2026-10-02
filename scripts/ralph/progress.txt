@@ -4,6 +4,7 @@
 - Saídas geradas (vendas_lojas.csv, etc.) ficam na raiz e são commitadas
 - tests/test_pipeline.py: fixture autouse de módulo roda pipeline.main() antes; helper ler(nome) lê CSVs da raiz
 - Somar receita com Decimal; formatar com :.2f só na saída
+- pipeline.pivot_receita(linhas) -> (meses, {regiao: {mes: Decimal}}); reutilizar no index.html (US-003) em vez de recalcular
 ---
 Started: Fri Oct  2 20:24:37 -03 2026
 ---
@@ -15,4 +16,13 @@ Started: Fri Oct  2 20:24:37 -03 2026
   - Colunas de vendas_lojas.csv: id_venda,data,id_loja,categoria,unidades,receita_brl,nome_loja,regiao,uf
   - Mês para o pivot = data[:7] (datas no formato AAAA-MM-DD)
   - Órfãs têm receita sem casas decimais (ex.: 1200) — sempre usar Decimal
+---
+
+## 2026-10-02 - US-002
+- pipeline.py: pivot_receita() agrega receita (Decimal) por região × mês (data[:7]) a partir de vendas_lojas.csv; gravar_pivot() grava pivot_receita.csv com regiões em ordem alfabética e valores :.2f
+- tests: cabeçalho exato, forma 4x7 + ordem das regiões, formato \d+\.\d{2} e total 931274.06 (6 testes no total)
+- Files changed: pipeline.py, tests/test_pipeline.py, pivot_receita.csv
+- **Learnings for future iterations:**
+  - Totais por região: Sudeste 265077.49 é o líder (confere com o PRD)
+  - Testes usam ler_linhas() (csv.reader) para checar cabeçalho/forma; ler() (DictReader) para conteúdo
 ---

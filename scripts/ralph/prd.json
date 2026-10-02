@@ -32,7 +32,7 @@
         "tests/test_pipeline.py ganha testes para cabeçalho, forma 4x7 e total do pivot; python3 -m pytest -q passa"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "notes": ""
     },
     {

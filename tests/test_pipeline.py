@@ -1,4 +1,5 @@
 import csv
+import re
 import sys
 from decimal import Decimal
 from pathlib import Path
@@ -35,3 +36,28 @@ def test_orfas_e_loja_108_fora_do_join():
     linhas = ler("vendas_lojas.csv")
     assert not {"V00421", "V00422", "V00423"} & {l["id_venda"] for l in linhas}
     assert "108" not in {l["id_loja"] for l in linhas}
+
+
+def ler_linhas(nome):
+    with (RAIZ / nome).open(newline="", encoding="utf-8") as f:
+        return list(csv.reader(f))
+
+
+def test_pivot_cabecalho():
+    assert ler_linhas("pivot_receita.csv")[0] == [
+        "regiao", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06"]
+
+
+def test_pivot_forma_4x7_regioes_ordenadas():
+    dados = ler_linhas("pivot_receita.csv")[1:]
+    assert len(dados) == 4
+    assert all(len(l) == 7 for l in dados)
+    assert [l[0] for l in dados] == ["Centro-Oeste", "Nordeste", "Sudeste", "Sul"]
+
+
+def test_pivot_total_e_formato():
+    dados = ler_linhas("pivot_receita.csv")[1:]
+    celulas = [c for l in dados for c in l[1:]]
+    assert all(re.fullmatch(r"\d+\.\d{2}", c) for c in celulas)
+    total = sum(Decimal(c) for c in celulas)
+    assert abs(total - Decimal("931274.06")) <= Decimal("0.50")
