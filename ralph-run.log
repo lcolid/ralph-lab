@@ -1,0 +1,66 @@
+Starting Ralph - Tool: claude - Max iterations: 10
+
+===============================================================
+  Ralph Iteration 1 of 10 (claude)
+===============================================================
+US-001 is done and committed on the new branch `ralph/csv-ao-grafico` (8fc33d0). All 3 tests pass with `python3 -m pytest -q`.
+
+- **`pipeline.py`** reads `vendas.csv` (423 rows) and `lojas.csv`, inner-joins them on `id_loja`, and writes `vendas_lojas.csv` with 420 rows. Revenue totals 931274.06 and is summed with `Decimal`. It uses only the standard library.
+- **What it prints:** 423 sales in, 420 rows after the join, 3 orphan sales dropped (R$ 8120.00).
+- **Exclusions:** the orphans V00421–V00423 (`id_loja=999`) and store 108 are not in the output.
+- **`tests/test_pipeline.py`** runs the pipeline first, then checks the row count, the revenue total, and that the orphans and store 108 are missing.
+- **Tracking:** the story is set to `passes: true` in `prd.json`, and `progress.txt` now has a Codebase Patterns section plus the log entry for this story.
+
+I didn't commit `ralph-run.log`, because the Ralph runner writes to it while it runs. I didn't change `CLAUDE.md` either, since nothing so far seemed worth adding beyond what's in `progress.txt`. US-002, US-003 and US-004 are still `passes: false` and will be picked up in later iterations.
+Iteration 1 complete. Continuing...
+
+===============================================================
+  Ralph Iteration 2 of 10 (claude)
+===============================================================
+US-002 is finished and committed as `2235fba`. All 6 tests pass with `python3 -m pytest -q`.
+
+- **What it does now:** `pipeline.py` reads `vendas_lojas.csv`, adds up revenue for each region and month (the month comes from the first 7 characters of the date), and writes `pivot_receita.csv` to the repo root.
+- **Output:** the header is exactly `regiao,2026-01,…,2026-06`. There are 4 regions in alphabetical order, the table is 4×7, and values have 2 decimal places with no R$ sign or thousands separator. All cells add up to 931274.06. Sudeste leads with 265077.49, which matches the number US-003 expects.
+- **Tests:** 3 new ones check the exact header, the 4×7 shape and region order, and the number format plus the 931274.06 total.
+- **Tracking:** US-002 is set to `passes: true` in `prd.json`, and `progress.txt` has the log entry and a new shared pattern. That note says to reuse the existing pivot function when building `index.html` rather than recalculating.
+
+I left `ralph-run.log` uncommitted because the runner writes to it while it runs. US-003 and US-004 are still open for the next iterations.
+Iteration 2 complete. Continuing...
+
+===============================================================
+  Ralph Iteration 3 of 10 (claude)
+===============================================================
+US-003 is done: `python3 pipeline.py` now also writes `index.html`, and all 8 tests pass. It's committed as `c72bbd9`, and the story is marked as passing in `scripts/ralph/prd.json`.
+
+**What the page has:**
+- **Line chart:** monthly revenue for the four regions, drawn as an SVG inside the page. It has a legend and region names at the end of each line, and hovering a point shows its value. I chose SVG over Chart.js so the page doesn't need to load anything from the internet.
+- **Table:** the same numbers in a collapsible section under the chart. Dark mode follows the system setting.
+- **Conclusion paragraph** (about 390 characters): built from the data, not typed in. It says the joined revenue is R$ 931.274,06 from 420 of 423 sales and that Sudeste leads with R$ 265.077,49 (28,5%). It also names what was left out: the 3 orphan sales (R$ 8.120,00) and store 108 (Batel/PR), which had no sales.
+- **Two new tests:** one checks that the chart element exists. The other checks that the paragraph is 300+ characters and mentions each of those figures.
+
+**Not checked visually:** the browser tool couldn't start (Chrome isn't installed for Playwright), so I haven't actually seen the page. I calculated where the region names land and they shouldn't overlap, but it's worth opening `index.html` once yourself.
+
+US-004 (the README) is still open, so the next iteration will pick it up.
+Iteration 3 complete. Continuing...
+
+===============================================================
+  Ralph Iteration 4 of 10 (claude)
+===============================================================
+I finished US-004 and committed it as `e85e91b` on `ralph/csv-ao-grafico`. All 4 stories in `scripts/ralph/prd.json` are now marked `passes: true`.
+
+- **`README.md`**: explains how to run `python3 pipeline.py` and `python3 -m pytest -q`, and why an inner join is used rather than a left or outer join. It reports the numbers the story asked for:
+  - 423 sales in, 420 after the join.
+  - 3 orphan sales with `id_loja=999` dropped, worth R$ 8.120,00.
+  - Store 108 (Batel/PR) has no sales, so it's left out of the report.
+  - Total revenue is 931274.06 out of 939394.06. I recalculated the 939394.06 from `vendas.csv` and it matches.
+- **New test**: I added one check that the README still contains these numbers, so the suite now has 9 tests and all of them pass. If the pipeline's output changes, this test fails until the README is updated.
+- **Ralph files**: I set US-004 to done in the PRD and appended this iteration to `scripts/ralph/progress.txt`.
+
+`ralph-run.log` is still untracked and I left it out of the commit.
+
+Separately, the Gmail, Google Calendar and Google Drive connectors need authorization in your claude.ai connector settings before they can be used. This task didn't need them.
+
+<promise>COMPLETE</promise>
+
+Ralph completed all tasks!
+Completed at iteration 4 of 10
