@@ -1,0 +1,66 @@
+{
+  "project": "ralph-lab",
+  "branchName": "ralph/csv-ao-grafico",
+  "description": "Pipeline do CSV ao gráfico: inner join de vendas.csv com lojas.csv por id_loja, pivot de receita por região × mês e página estática index.html com gráfico e conclusão. Todos os arquivos de saída ficam na RAIZ do repositório. O critério de pronto é a suíte pytest inteira verde (python3 -m pytest -q na raiz), com pelo menos 4 testes. Restrições globais: nunca apagar ou editar linhas de vendas.csv ou lojas.csv; não inventar dados; ler receita_brl como número (use decimal.Decimal para somar); usar apenas a biblioteca padrão do Python (csv, decimal, pathlib), sem pandas nem outras dependências; o código do pipeline fica em pipeline.py na raiz e é executado com python3 pipeline.py.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Inner join de vendas e lojas em vendas_lojas.csv",
+      "description": "Como analista, quero as vendas enriquecidas com nome da loja, região e UF, para agregar receita por região sem contaminar o total com vendas sem loja.",
+      "acceptanceCriteria": [
+        "pipeline.py lê vendas.csv (423 linhas) e lojas.csv (8 linhas) da raiz",
+        "Faz INNER JOIN por id_loja e grava vendas_lojas.csv na raiz com exatamente 420 linhas de dados",
+        "Mantém a coluna com o nome exato receita_brl; a soma de receita_brl é 931274.06 (tolerância 0.50)",
+        "As 3 vendas órfãs com id_loja=999 (V00421, V00422, V00423, R$ 8.120,00) ficam fora; a loja 108 (Batel/PR) não aparece por não ter vendas",
+        "pipeline.py imprime no terminal quantas linhas entraram, quantas saíram e quanta receita foi descartada",
+        "tests/test_pipeline.py tem testes para 420 linhas e receita total 931274.06, e python3 -m pytest -q passa"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Pivot região × mês em pivot_receita.csv",
+      "description": "Como gestor, quero a receita mensal de cada região numa tabela, para comparar o desempenho regional ao longo do semestre.",
+      "acceptanceCriteria": [
+        "pivot_receita.csv é gerado a partir de vendas_lojas.csv e gravado na raiz",
+        "Cabeçalho exato: regiao,2026-01,2026-02,2026-03,2026-04,2026-05,2026-06",
+        "4 linhas de dados (Centro-Oeste, Nordeste, Sudeste, Sul, em ordem alfabética) e 7 colunas",
+        "Valores com ponto decimal e 2 casas (ex.: 265077.49), sem R$ e sem separador de milhar; arredondar só na escrita",
+        "A soma de todas as células numéricas é 931274.06 (tolerância 0.50)",
+        "tests/test_pipeline.py ganha testes para cabeçalho, forma 4x7 e total do pivot; python3 -m pytest -q passa"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Página index.html com gráfico e conclusão",
+      "description": "Como leitor do relatório, quero ver a receita mensal por região num gráfico e ler uma conclusão, para entender o resultado sem abrir CSVs.",
+      "acceptanceCriteria": [
+        "pipeline.py gera index.html estático na raiz a partir de pivot_receita.csv (os números vêm dos dados, não digitados à mão)",
+        "A página tem um gráfico de linhas ou barras da receita mensal por região: elemento <canvas> com Chart.js via CDN, ou <svg> inline",
+        "A página tem um elemento <p> de conclusão com pelo menos 300 caracteres, citando a receita total do inner join, a região líder (Sudeste, R$ 265.077,49) e as exclusões (3 vendas órfãs, R$ 8.120,00, e a loja 108 sem vendas)",
+        "tests/test_pipeline.py ganha teste que verifica o elemento de gráfico e o <p> com 300+ caracteres; python3 -m pytest -q passa"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "README documentando o join e as armadilhas",
+      "description": "Como avaliador, quero saber qual join foi escolhido e o que ficou de fora, para confiar nos números do relatório.",
+      "acceptanceCriteria": [
+        "README.md na raiz explica como rodar (python3 pipeline.py e python3 -m pytest -q)",
+        "README.md justifica o inner join e reporta: 423 vendas de entrada, 420 no join, 3 órfãs descartadas (R$ 8.120,00), loja 108 sem vendas fora do relatório, receita total 931274.06 de 939394.06",
+        "A suíte completa tem pelo menos 4 testes e python3 -m pytest -q passa sem falhas"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
