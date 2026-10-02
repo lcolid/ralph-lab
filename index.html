@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Receita mensal por região</title>
+<style>
+.viz-root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --grid: #e4e3df;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+}
+@media (prefers-color-scheme: dark) {
+  .viz-root {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --grid: #3a3a37;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --series-4: #c98500;
+  }
+}
+body { margin: 0; }
+.viz-root { background: var(--surface-1); color: var(--text-primary);
+  font-family: system-ui, sans-serif; max-width: 760px; margin: 0 auto; padding: 24px; min-height: 100vh; }
+h1 { font-size: 1.4rem; margin: 0 0 4px; }
+.sub { color: var(--text-secondary); margin: 0 0 16px; }
+.legenda { list-style: none; display: flex; gap: 16px; padding: 0; margin: 0 0 8px; color: var(--text-secondary); }
+.chave { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+svg { width: 100%; height: auto; }
+.grade { stroke: var(--grid); stroke-width: 1; }
+.eixo { fill: var(--text-secondary); font-size: 12px; }
+.rotulo { fill: var(--text-primary); font-size: 12px; }
+.serie polyline { fill: none; stroke: var(--cor); stroke-width: 2; stroke-linejoin: round; }
+.serie circle { fill: var(--cor); stroke: var(--surface-1); stroke-width: 2; }
+.serie circle.alvo { fill: transparent; stroke: none; }
+.ponto:hover circle:not(.alvo) { r: 6; }
+table { border-collapse: collapse; font-size: 0.85rem; width: 100%; margin-top: 8px; }
+th, td { padding: 4px 6px; text-align: right; border-bottom: 1px solid var(--grid); }
+th:first-child { text-align: left; }
+details { margin: 8px 0 16px; color: var(--text-secondary); }
+p.conclusao { line-height: 1.5; }
+</style>
+</head>
+<body>
+<main class="viz-root">
+<h1>Receita mensal por região</h1>
+<p class="sub">Vendas com loja cadastrada (inner join), 2026-01 a 2026-06, em R$</p>
+<ul class="legenda"><li><span class="chave" style="background: var(--series-1)"></span>Centro-Oeste</li><li><span class="chave" style="background: var(--series-2)"></span>Nordeste</li><li><span class="chave" style="background: var(--series-3)"></span>Sudeste</li><li><span class="chave" style="background: var(--series-4)"></span>Sul</li></ul>
+<svg viewBox="0 0 720 360" role="img" aria-label="Receita mensal por região (R$)">
+<line class="grade" x1="80" x2="600" y1="320.0" y2="320.0"/>
+<text class="eixo" x="72" y="324.0" text-anchor="end">0 mil</text>
+<line class="grade" x1="80" x2="600" y1="245.0" y2="245.0"/>
+<text class="eixo" x="72" y="249.0" text-anchor="end">10 mil</text>
+<line class="grade" x1="80" x2="600" y1="170.0" y2="170.0"/>
+<text class="eixo" x="72" y="174.0" text-anchor="end">20 mil</text>
+<line class="grade" x1="80" x2="600" y1="95.0" y2="95.0"/>
+<text class="eixo" x="72" y="99.0" text-anchor="end">30 mil</text>
+<line class="grade" x1="80" x2="600" y1="20.0" y2="20.0"/>
+<text class="eixo" x="72" y="24.0" text-anchor="end">40 mil</text>
+<text class="eixo" x="80.0" y="340" text-anchor="middle">2026-01</text>
+<text class="eixo" x="184.0" y="340" text-anchor="middle">2026-02</text>
+<text class="eixo" x="288.0" y="340" text-anchor="middle">2026-03</text>
+<text class="eixo" x="392.0" y="340" text-anchor="middle">2026-04</text>
+<text class="eixo" x="496.0" y="340" text-anchor="middle">2026-05</text>
+<text class="eixo" x="600.0" y="340" text-anchor="middle">2026-06</text>
+<g class="serie" style="--cor: var(--series-1)">
+<polyline points="80.0,-11.1 184.0,-41.7 288.0,7.4 392.0,28.6 496.0,-30.0 600.0,29.4"/>
+<g class="ponto"><circle class="alvo" cx="80.0" cy="-11.1" r="12"/><circle cx="80.0" cy="-11.1" r="4"/><title>Centro-Oeste · 2026-01: R$ 44.144,42</title></g>
+<g class="ponto"><circle class="alvo" cx="184.0" cy="-41.7" r="12"/><circle cx="184.0" cy="-41.7" r="4"/><title>Centro-Oeste · 2026-02: R$ 48.227,94</title></g>
+<g class="ponto"><circle class="alvo" cx="288.0" cy="7.4" r="12"/><circle cx="288.0" cy="7.4" r="4"/><title>Centro-Oeste · 2026-03: R$ 41.682,96</title></g>
+<g class="ponto"><circle class="alvo" cx="392.0" cy="28.6" r="12"/><circle cx="392.0" cy="28.6" r="4"/><title>Centro-Oeste · 2026-04: R$ 38.855,88</title></g>
+<g class="ponto"><circle class="alvo" cx="496.0" cy="-30.0" r="12"/><circle cx="496.0" cy="-30.0" r="4"/><title>Centro-Oeste · 2026-05: R$ 46.672,07</title></g>
+<g class="ponto"><circle class="alvo" cx="600.0" cy="29.4" r="12"/><circle cx="600.0" cy="29.4" r="4"/><title>Centro-Oeste · 2026-06: R$ 38.740,70</title></g>
+<text class="rotulo" x="610.0" y="33.4">Centro-Oeste</text>
+</g>
+<g class="serie" style="--cor: var(--series-2)">
+<polyline points="80.0,-26.7 184.0,-40.3 288.0,-23.9 392.0,-10.4 496.0,54.7 600.0,2.6"/>
+<g class="ponto"><circle class="alvo" cx="80.0" cy="-26.7" r="12"/><circle cx="80.0" cy="-26.7" r="4"/><title>Nordeste · 2026-01: R$ 46.222,85</title></g>
+<g class="ponto"><circle class="alvo" cx="184.0" cy="-40.3" r="12"/><circle cx="184.0" cy="-40.3" r="4"/><title>Nordeste · 2026-02: R$ 48.042,96</title></g>
+<g class="ponto"><circle class="alvo" cx="288.0" cy="-23.9" r="12"/><circle cx="288.0" cy="-23.9" r="4"/><title>Nordeste · 2026-03: R$ 45.850,70</title></g>
+<g class="ponto"><circle class="alvo" cx="392.0" cy="-10.4" r="12"/><circle cx="392.0" cy="-10.4" r="4"/><title>Nordeste · 2026-04: R$ 44.053,04</title></g>
+<g class="ponto"><circle class="alvo" cx="496.0" cy="54.7" r="12"/><circle cx="496.0" cy="54.7" r="4"/><title>Nordeste · 2026-05: R$ 35.371,50</title></g>
+<g class="ponto"><circle class="alvo" cx="600.0" cy="2.6" r="12"/><circle cx="600.0" cy="2.6" r="4"/><title>Nordeste · 2026-06: R$ 42.321,71</title></g>
+<text class="rotulo" x="610.0" y="6.6">Nordeste</text>
+</g>
+<g class="serie" style="--cor: var(--series-3)">
+<polyline points="80.0,-15.8 184.0,-44.1 288.0,51.4 392.0,-27.1 496.0,11.9 600.0,-44.4"/>
+<g class="ponto"><circle class="alvo" cx="80.0" cy="-15.8" r="12"/><circle cx="80.0" cy="-15.8" r="4"/><title>Sudeste · 2026-01: R$ 44.767,33</title></g>
+<g class="ponto"><circle class="alvo" cx="184.0" cy="-44.1" r="12"/><circle cx="184.0" cy="-44.1" r="4"/><title>Sudeste · 2026-02: R$ 48.544,11</title></g>
+<g class="ponto"><circle class="alvo" cx="288.0" cy="51.4" r="12"/><circle cx="288.0" cy="51.4" r="4"/><title>Sudeste · 2026-03: R$ 35.816,56</title></g>
+<g class="ponto"><circle class="alvo" cx="392.0" cy="-27.1" r="12"/><circle cx="392.0" cy="-27.1" r="4"/><title>Sudeste · 2026-04: R$ 46.281,64</title></g>
+<g class="ponto"><circle class="alvo" cx="496.0" cy="11.9" r="12"/><circle cx="496.0" cy="11.9" r="4"/><title>Sudeste · 2026-05: R$ 41.083,43</title></g>
+<g class="ponto"><circle class="alvo" cx="600.0" cy="-44.4" r="12"/><circle cx="600.0" cy="-44.4" r="4"/><title>Sudeste · 2026-06: R$ 48.584,42</title></g>
+<text class="rotulo" x="610.0" y="-40.4">Sudeste</text>
+</g>
+<g class="serie" style="--cor: var(--series-4)">
+<polyline points="80.0,112.2 184.0,132.6 288.0,173.1 392.0,147.7 496.0,131.8 600.0,127.5"/>
+<g class="ponto"><circle class="alvo" cx="80.0" cy="112.2" r="12"/><circle cx="80.0" cy="112.2" r="4"/><title>Sul · 2026-01: R$ 27.703,36</title></g>
+<g class="ponto"><circle class="alvo" cx="184.0" cy="132.6" r="12"/><circle cx="184.0" cy="132.6" r="4"/><title>Sul · 2026-02: R$ 24.985,87</title></g>
+<g class="ponto"><circle class="alvo" cx="288.0" cy="173.1" r="12"/><circle cx="288.0" cy="173.1" r="4"/><title>Sul · 2026-03: R$ 19.584,52</title></g>
+<g class="ponto"><circle class="alvo" cx="392.0" cy="147.7" r="12"/><circle cx="392.0" cy="147.7" r="4"/><title>Sul · 2026-04: R$ 22.976,51</title></g>
+<g class="ponto"><circle class="alvo" cx="496.0" cy="131.8" r="12"/><circle cx="496.0" cy="131.8" r="4"/><title>Sul · 2026-05: R$ 25.094,42</title></g>
+<g class="ponto"><circle class="alvo" cx="600.0" cy="127.5" r="12"/><circle cx="600.0" cy="127.5" r="4"/><title>Sul · 2026-06: R$ 25.665,16</title></g>
+<text class="rotulo" x="610.0" y="131.5">Sul</text>
+</g>
+</svg>
+<details><summary>Ver tabela</summary>
+<table><thead><tr><th>Região</th><th>2026-01</th><th>2026-02</th><th>2026-03</th><th>2026-04</th><th>2026-05</th><th>2026-06</th></tr></thead><tbody><tr><th>Centro-Oeste</th><td>R$ 44.144,42</td><td>R$ 48.227,94</td><td>R$ 41.682,96</td><td>R$ 38.855,88</td><td>R$ 46.672,07</td><td>R$ 38.740,70</td></tr><tr><th>Nordeste</th><td>R$ 46.222,85</td><td>R$ 48.042,96</td><td>R$ 45.850,70</td><td>R$ 44.053,04</td><td>R$ 35.371,50</td><td>R$ 42.321,71</td></tr><tr><th>Sudeste</th><td>R$ 44.767,33</td><td>R$ 48.544,11</td><td>R$ 35.816,56</td><td>R$ 46.281,64</td><td>R$ 41.083,43</td><td>R$ 48.584,42</td></tr><tr><th>Sul</th><td>R$ 27.703,36</td><td>R$ 24.985,87</td><td>R$ 19.584,52</td><td>R$ 22.976,51</td><td>R$ 25.094,42</td><td>R$ 25.665,16</td></tr></tbody></table>
+</details>
+<p class="conclusao">Entre 2026-01 e 2026-06, o inner join de vendas com lojas somou R$ 931.274,06 de receita em 420 das 423 vendas registradas. A região líder foi o Sudeste, com R$ 265.077,49 no semestre (28,5% do total). Ficaram fora do relatório 3 vendas órfãs, cujo id_loja não existe no cadastro de lojas (R$ 8.120,00 descartados), e a loja 108 (Batel/PR), que não teve nenhuma venda no período e por isso não entra no join.</p>
+</main>
+</body>
+</html>

@@ -46,7 +46,7 @@
         "tests/test_pipeline.py ganha teste que verifica o elemento de gráfico e o <p> com 300+ caracteres; python3 -m pytest -q passa"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "notes": ""
     },
     {

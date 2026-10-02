@@ -61,3 +61,24 @@ def test_pivot_total_e_formato():
     assert all(re.fullmatch(r"\d+\.\d{2}", c) for c in celulas)
     total = sum(Decimal(c) for c in celulas)
     assert abs(total - Decimal("931274.06")) <= Decimal("0.50")
+
+
+def ler_index():
+    return (RAIZ / "index.html").read_text(encoding="utf-8")
+
+
+def test_index_tem_grafico():
+    pagina = ler_index()
+    assert "<svg" in pagina or ("<canvas" in pagina and "chart.js" in pagina.lower())
+
+
+def test_index_conclusao_300_caracteres():
+    pagina = ler_index()
+    paragrafos = re.findall(r"<p[^>]*>(.*?)</p>", pagina, re.S)
+    longos = [p for p in paragrafos if len(p) >= 300]
+    assert longos
+    texto = longos[0]
+    assert "R$ 931.274,06" in texto
+    assert "Sudeste" in texto and "R$ 265.077,49" in texto
+    assert "3 vendas órfãs" in texto and "R$ 8.120,00" in texto
+    assert "108" in texto

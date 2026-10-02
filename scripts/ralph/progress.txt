@@ -5,6 +5,8 @@
 - tests/test_pipeline.py: fixture autouse de módulo roda pipeline.main() antes; helper ler(nome) lê CSVs da raiz
 - Somar receita com Decimal; formatar com :.2f só na saída
 - pipeline.pivot_receita(linhas) -> (meses, {regiao: {mes: Decimal}}); reutilizar no index.html (US-003) em vez de recalcular
+- index.html é gerado relendo pivot_receita.csv via ler_pivot(); valores em pt-BR com brl(Decimal) -> 'R$ 931.274,06'
+- Sem navegador no ambiente (Playwright sem Chrome): verificar HTML via testes/regex
 ---
 Started: Fri Oct  2 20:24:37 -03 2026
 ---
@@ -25,4 +27,14 @@ Started: Fri Oct  2 20:24:37 -03 2026
 - **Learnings for future iterations:**
   - Totais por região: Sudeste 265077.49 é o líder (confere com o PRD)
   - Testes usam ler_linhas() (csv.reader) para checar cabeçalho/forma; ler() (DictReader) para conteúdo
+---
+
+## 2026-10-02 - US-003
+- pipeline.py: ler_pivot() relê pivot_receita.csv; svg_linhas() gera gráfico de linhas SVG inline (4 regiões, grade, rótulos diretos, <title> como tooltip por ponto); conclusao() monta o texto a partir dos dados (total, líder, órfãs, lojas sem venda); gravar_index() grava index.html com legenda, tabela em <details> e <p class="conclusao"> (~390 caracteres); modo escuro via prefers-color-scheme
+- tests: gráfico (<svg>) e <p> com 300+ caracteres citando R$ 931.274,06, Sudeste R$ 265.077,49, 3 vendas órfãs R$ 8.120,00 e loja 108 (8 testes no total)
+- Files changed: pipeline.py, tests/test_pipeline.py, index.html, scripts/ralph/prd.json, scripts/ralph/progress.txt
+- Verificação visual no navegador não foi possível (Chrome não instalado para Playwright); posições dos rótulos conferidas numericamente — verificar manualmente
+- **Learnings for future iterations:**
+  - Cuidado: em Python, "a" f"b".replace(...) aplica o replace à string concatenada inteira (concatenação implícita acontece antes)
+  - Loja sem venda = lojas cujo id_loja não aparece no join; calculado em main(), não fixo no código
 ---
